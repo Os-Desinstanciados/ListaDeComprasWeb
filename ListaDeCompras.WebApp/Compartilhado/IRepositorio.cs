@@ -1,4 +1,4 @@
-namespace ListaDeComprasWeb.Compartilhado;
+namespace ListaDeCompras.WebApp.Compartilhado;
 
 public interface IRepositorio<T> where T : EntidadeBase<T>
 {

@@ -1,4 +1,4 @@
-namespace ListaDeComprasWeb.Compartilhado.Arquivos;
+namespace ListaDeCompras.WebApp.Compartilhado.Arquivos;
 
 public abstract class RepositorioBaseEmArquivo<T> where T : EntidadeBase<T>
 {

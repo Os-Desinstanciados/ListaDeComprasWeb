@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace ListaDeComprasWeb.Controllers;
+namespace ListaDeCompras.WebApp.Controllers;
 
 public class HomeController : Controller
 {
