@@ -1,6 +1,6 @@
 using System.Security.Cryptography;
 
-namespace ListaDeComprasWeb.Compartilhado;
+namespace ListaDeCompras.WebApp.Compartilhado.Dominio;
 
 public abstract class EntidadeBase<T>
 {

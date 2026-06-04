@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace ListaDeComprasWeb.Controllers;
+namespace ListaDeCompras.WebApp.Compartilhado.Apresentacao;
 
 public class HomeController : Controller
 {
-    // GET: HomeController
+    [HttpGet]
     public ActionResult Index()
     {
         return View();
