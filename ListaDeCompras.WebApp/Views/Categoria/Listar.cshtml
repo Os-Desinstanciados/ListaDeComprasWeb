@@ -22,6 +22,7 @@
             <td>ID</td>
             <td>Nome</td>
             <td>Cor</td>
+            <td>Ações</td>
         </tr>
     </thead>
     <tbody>
@@ -31,6 +32,8 @@
                 <td>@c.Id</td>
                 <td>@c.Nome</td>
                 <td>@c.Cor</td>
+                <td><a href="/Categoria/Editar/@c.Id">Editar</a></td>
+                <td><a href="/Categoria/Editar/@c.Id">Excluir</a></td>
             </tr>
         }
     </tbody>
