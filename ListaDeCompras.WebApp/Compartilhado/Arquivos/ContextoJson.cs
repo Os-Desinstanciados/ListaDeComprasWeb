@@ -1,12 +1,14 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using ListaDeCompras.WebApp.ModuloCategoria;
+using ListaDeCompras.WebApp.ModuloProduto;
 
 namespace ListaDeCompras.WebApp.Compartilhado.Arquivos;
 
 public sealed class ContextoJson
 {
     public List<Categoria> Categorias { get; set; } = new List<Categoria>();
+    public List<Produto> Produtos { get; set; } = new List<Produto>();
 
     private readonly string caminhoArquivo;
 
@@ -14,7 +16,7 @@ public sealed class ContextoJson
     {
         string caminhoAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
-        string caminhoDiretorio = Path.Combine(caminhoAppData, "GestaoDeEquipamentosWeb");
+        string caminhoDiretorio = Path.Combine(caminhoAppData, "ListaDeComprasWeb");
 
         Directory.CreateDirectory(caminhoDiretorio);
 
@@ -50,5 +52,6 @@ public sealed class ContextoJson
             return;
 
         this.Categorias = contextoSalvo.Categorias;
+        this.Produtos = contextoSalvo.Produtos;
     }
 }

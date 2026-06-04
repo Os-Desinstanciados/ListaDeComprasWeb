@@ -7,7 +7,10 @@ public class Categoria : EntidadeBase<Categoria>
     public string Nome { get; set; } = string.Empty;
     public string Cor { get; set; } = string.Empty;
 
-    public Categoria() { }
+    public Categoria() 
+    {
+        
+    }
 
     public Categoria(string nome, string cor)
     {
