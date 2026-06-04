@@ -7,19 +7,19 @@
 <a href="/Categoria/Listar">Controle de Categoria</a>
 <hr>
 
-<h2>Edição de Categorias</h2>
+<h2>Exclusão de Categorias</h2>
 
-<form action="/Categoria/Editar/@Model.Id" method="post">
+<form action="/Categoria/Excluir/@Model.Id" method="post">
     <div>
         <label>Nome</label>
         <br>
-        <input type="text" name="Nome" value="@Model.Nome">
+        <input type="text" name="Nome" value="@Model.Nome" disabled>
     </div>
 
     <div>
         <label>Cor</label>
         <br>
-        <input type="text" name="Cor" value="@Model.Cor">
+        <input type="text" name="Cor" value="@Model.Cor" disabled>
     </div>
 
     <button type="submit">Confirmar</button>

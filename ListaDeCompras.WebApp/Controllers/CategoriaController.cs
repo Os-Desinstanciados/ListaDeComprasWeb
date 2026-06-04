@@ -64,6 +64,30 @@ public class CategoriaController : Controller
         repositorioCategoria.Editar(id, categoriaAtualizada);
 
         return RedirectToAction(nameof(Listar));
+    }
 
+    [HttpGet]
+    public ActionResult Excluir(string id)
+    {
+        Categoria? categoria = repositorioCategoria.SelecionarPorId(id);
+
+        if (categoria == null)
+            return RedirectToAction(nameof(Listar));
+
+        return View(categoria);
+    }
+
+    [HttpPost]
+    [ActionName("Excluir")]
+    public ActionResult ExcluirConfirmado(string id)
+    {
+        Categoria? categoria = repositorioCategoria.SelecionarPorId(id);
+
+        if (categoria == null)
+            return RedirectToAction(nameof(Listar));
+
+        repositorioCategoria.Excluir(categoria);
+
+        return RedirectToAction(nameof(Listar));
     }
 }
