@@ -1,28 +1,21 @@
+@{
+    Layout = "_Layout";
+    ViewBag.Titulo = "Listagem de Categorias";
+}
+
 @using ListaDeCompras.WebApp.ModuloCategoria;
 
 @model List<Categoria>;
 
-<h1>Lista de Compras</h1>
+<a class="btn-cadastrar" href="/Categoria/Cadastrar">Cadastrar Novo</a>
 
-<hr>
-<a href="/Categoria/Listar">Controle de Categoria</a>
-<hr>
-
-<h2>Listagem de Categorias</h2>
-
-<hr>
-<a href="/Categoria/Cadastrar">Cadastrar Novo</a>
-<hr>
-
-
-<hr>
-<table>
+<table class="registros">
     <thead>
         <tr>
-            <td>ID</td>
-            <td>Nome</td>
-            <td>Cor</td>
-            <td>Ações</td>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Cor</th>
+            <th>Ações</th>
         </tr>
     </thead>
     <tbody>
@@ -32,8 +25,10 @@
                 <td>@c.Id</td>
                 <td>@c.Nome</td>
                 <td>@c.Cor</td>
-                <td><a href="/Categoria/Editar/@c.Id">Editar</a></td>
-                <td><a href="/Categoria/Excluir/@c.Id">Excluir</a></td>
+                <td>
+                    <a href="/Categoria/Editar/@c.Id">Editar</a>
+                    <a href="/Categoria/Excluir/@c.Id">Excluir</a>
+                </td>
             </tr>
         }
     </tbody>

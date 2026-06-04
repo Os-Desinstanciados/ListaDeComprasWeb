@@ -1,10 +1,7 @@
-<h1>Lista de Compras</h1>
-
-<hr>
-<a href="/Categoria/Listar">Controle de Categoria</a>
-<hr>
-
-<h2>Cadastro de Categorias</h2>
+@{
+    Layout = "_Layout";
+    ViewBag.Titulo = "Cadastro de Categoria";
+}
 
 <form action="/Categoria/Cadastrar" method="post">
     <div>
@@ -18,7 +15,8 @@
         <br>
         <input type="text" name="Cor">
     </div>
-
+    <hr>
+    <a href="/Categoria/Listar">Voltar</a>
     <button type="submit">Confirmar</button>
 
 </form>

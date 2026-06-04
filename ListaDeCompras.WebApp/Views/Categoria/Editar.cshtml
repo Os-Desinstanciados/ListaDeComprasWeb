@@ -1,13 +1,11 @@
+@{
+    Layout = "_Layout";
+    ViewBag.Titulo = "Edição de Categoria";
+}
+
 @using ListaDeCompras.WebApp.ModuloCategoria;
+
 @model Categoria;
-
-<h1>Lista de Compras</h1>
-
-<hr>
-<a href="/Categoria/Listar">Controle de Categoria</a>
-<hr>
-
-<h2>Edição de Categorias</h2>
 
 <form action="/Categoria/Editar/@Model.Id" method="post">
     <div>
