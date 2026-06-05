@@ -1,11 +1,11 @@
+@using ListaDeCompras.WebApp.Models;
+
 @{
     Layout = "_Layout";
     ViewBag.Titulo = "Listagem de Produtos";
 }
 
-@using ListaDeCompras.WebApp.ModuloProduto;
-
-@model List<Produto>;
+@model List<ListarProdutoViewModel>;
 
 <a class="btn-cadastrar" href="/Produto/Cadastrar">Cadastrar Novo</a>
 
@@ -15,20 +15,20 @@
             <th>ID</th>
             <th>Nome</th>
             <th>Categoria</th>
-            <th>Unidade</th>
-            <th>Preço</th>
+            <th>Tipo Unidade</th>
+            <th>Preço Aproximado</th>
             <th>Ações</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (Produto p in Model)
+        @foreach (ListarProdutoViewModel p in Model)
         {
             <tr>
                 <td>@p.Id</td>
                 <td>@p.Nome</td>
-                <td>@p.Categoria.Nome</td>
+                <td>@p.Categoria</td>
                 <td>@p.UnidadeMedida</td>
-                <td>@p.PrecoAproximado</td>
+                <td>@p.PrecoAproximado.ToString(format: "C2")</td>
                 <td>
                     <a href="/Produto/Editar/@p.Id">Editar</a>
                     <a href="/Produto/Excluir/@p.Id">Excluir</a>
