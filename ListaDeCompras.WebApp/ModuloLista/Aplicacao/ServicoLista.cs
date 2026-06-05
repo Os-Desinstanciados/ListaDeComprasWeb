@@ -18,7 +18,7 @@ public class ServicoLista
     public Result Cadastrar(CadastrarListaDto dto)
     {
         if (ExisteListaComNome(dto.Nome))
-            return Falha("Etiqueta", "Já existe uma caixa com esta etiqueta.");
+            return Falha("Nome", "Já existe uma lista com este nome.");
 
         Lista novaLista = new Lista(
             dto.Nome,
@@ -33,14 +33,14 @@ public class ServicoLista
     public Result Editar(EditarListaDto dto)
     {
         if (ExisteListaComNome(dto.Nome, dto.Id))
-            return Falha("Etiqueta", "Já existe uma caixa com esta etiqueta.");
+            return Falha("Nome", "Já existe uma lista com este nome.");
 
         Lista listaAtualizada = new Lista(dto.Nome, dto.DataCriacao);
 
         bool conseguiuEditar = repositorioLista.Editar(dto.Id, listaAtualizada);
 
         if (!conseguiuEditar)
-            return Result.Fail("Caixa não encontrada.");
+            return Result.Fail("Lista não encontrada.");
 
         return Result.Ok();
     }
@@ -71,16 +71,16 @@ public class ServicoLista
         Lista? lista = repositorioLista.SelecionarPorId(id);
 
         if (lista == null)
-            return Result.Fail("Caixa não encontrada.");
+            return Result.Fail("Lista não encontrada.");
 
         return Result.Ok(new DetalhesListaDto(lista.Id, lista.Nome, lista.DataCriacao));
     }
 
     private bool ExisteListaComNome(string nome, string? idIgnorado = null)
     {
-        List<Lista> caixas = repositorioLista.SelecionarTodos();
+        List<Lista> listas = repositorioLista.SelecionarTodos();
 
-        foreach (Lista l in caixas)
+        foreach (Lista l in listas)
         {
             if (l.Id != idIgnorado && string.Equals(l.Nome, nome, StringComparison.OrdinalIgnoreCase))
                 return true;

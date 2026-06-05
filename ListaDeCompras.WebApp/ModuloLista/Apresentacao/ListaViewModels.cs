@@ -20,7 +20,7 @@ public record CadastrarListaViewModel(
 public record EditarListaViewModel(
     string Id,
 
-    [Required(ErrorMessage = "O campo \"Etiqueta\" deve ser preenchido.")]
+    [Required(ErrorMessage = "O campo \"Nome\" deve ser preenchido.")]
     [StringLength(100, MinimumLength = 3, ErrorMessage = "O campo \"Nome\" deve conter entre 3 e 100 caracteres.")]
     string Nome,
 

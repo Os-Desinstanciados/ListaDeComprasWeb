@@ -1,4 +1,7 @@
 using ListaDeCompras.WebApp.Compartilhado.Infra.Arquivos;
+using ListaDeCompras.WebApp.ModuloCategoria.Aplicacao;
+using ListaDeCompras.WebApp.ModuloCategoria.Dominio;
+using ListaDeCompras.WebApp.ModuloCategoria.Infra;
 using ListaDeCompras.WebApp.ModuloLista.Aplicacao;
 using ListaDeCompras.WebApp.ModuloLista.Dominio;
 using ListaDeCompras.WebApp.ModuloLista.Infra;
@@ -17,11 +20,13 @@ builder.Services.AddScoped(provider =>
     return contextoJson;
 });
 
+builder.Services.AddScoped<IRepositorioCategoria, RepositorioCategoriaEmArquivo>();
 builder.Services.AddScoped<IRepositorioLista, RepositorioListaEmArquivo>();
+
 builder.Services.AddScoped<ServicoLista>();
+builder.Services.AddScoped<ServicoCategoria>();
 
 
-//builder.Services.AddScoped<ServicoLista>();
 #endregion
 
 #region Configuração do MVC
