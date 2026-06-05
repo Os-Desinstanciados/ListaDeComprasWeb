@@ -1,11 +1,11 @@
+@using ListaDeCompras.WebApp.Models;
+
 @{
     Layout = "_Layout";
     ViewBag.Titulo = "Edição de Categoria";
 }
 
-@using ListaDeCompras.WebApp.ModuloCategoria;
-
-@model Categoria;
+@model EditarCategoriaViewModel;
 
 <form class="formulario" action="/Categoria/Editar/@Model.Id" method="post">
     <div class="formulario-campo">

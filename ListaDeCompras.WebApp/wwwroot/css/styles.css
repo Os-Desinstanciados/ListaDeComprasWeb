@@ -105,7 +105,8 @@ nav {
     text-transform: uppercase;
 }
 
-.formulario-campo input {
+.formulario-campo input,
+.formulario-campo select {
     width: 100%;
     box-sizing: border-box;
     border: 1px solid black;
@@ -116,7 +117,13 @@ nav {
     font-family: inherit;
     font-size: 1rem;
 }
-.formulario-campo input:focus {
+
+.formulario-campo select {
+    padding: 12px 10px;
+}
+
+.formulario-campo input:focus,
+.formulario-campo select:focus {
     border-color: gold;
     outline: 3px solid rgba(255, 215, 0, 0.16);
 }

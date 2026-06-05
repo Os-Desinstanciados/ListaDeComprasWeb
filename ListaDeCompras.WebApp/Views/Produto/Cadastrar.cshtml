@@ -1,0 +1,54 @@
+@using ListaDeCompras.WebApp.Models;
+
+
+@{
+    Layout = "_Layout";
+    ViewBag.Titulo = "Cadastro de Produto";
+
+    List<ListarCategoriasViewModel> categorias = ViewBag.Categorias;
+}
+
+@model CadastrarProdutoViewModel;
+
+<form class="formulario" action="/Produto/Cadastrar" method="post">
+
+    <div class="formulario-campo">
+        <label>Nome</label>
+        <br>
+        <input type="text" name="Nome">
+    </div>
+
+    <div class="formulario-campo">
+        <label>Categoria</label>
+        <br>
+        <select name="CategoriaId">
+            @foreach (ListarCategoriasViewModel c in categorias)
+            {
+                <option value="@c.Id">@c.Nome</option>
+            }
+        </select>
+    </div>
+
+    <div class="formulario-campo">
+        <label>Unidade de Medida</label>
+        <br>
+        <select name="UnidadeMedida">
+            <option value="Kg">Kg</option>
+            <option value="Unidade">Unidade</option>
+            <option value="Caixa">Caixa</option>
+            <option value="Grama">Grama</option>
+        </select>
+    </div>
+
+    <div class="formulario-campo">
+        <label>Preço Aproximado</label>
+        <br>
+        <input type="number" name="PrecoAproximado" min="0.01" step="0.01">
+    </div>
+
+    <div class="formulario-acoes">
+        <a href="/Produto/Listar">Voltar</a>
+        <button type="submit">Confirmar</button>
+    </div>
+
+</form>

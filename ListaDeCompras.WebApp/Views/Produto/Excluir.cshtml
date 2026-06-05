@@ -1,0 +1,47 @@
+@using ListaDeCompras.WebApp.Models;
+
+@{
+    Layout = "_Layout";
+    ViewBag.Titulo = "Exclusão de Produto";
+}
+
+@model ExcluirProdutoViewModel;
+
+<form class="formulario" action="/Produto/Excluir" method="post">
+
+    <input type="hidden" name="Id" value="@Model.Id">
+
+    <p class="formulario-alerta">
+        Deseja realmente excluir este produto?
+    </p>
+
+    <div class="formulario-campo">
+        <label>Nome</label>
+        <br>
+        <input type="text" value="@Model.Nome" disabled>
+    </div>
+
+    <div class="formulario-campo">
+        <label>Categoria</label>
+        <br>
+        <input type="text" value="@Model.Categoria" disabled>
+    </div>
+
+    <div class="formulario-campo">
+        <label>Unidade de Medida</label>
+        <br>
+        <input type="text" value="@Model.UnidadeMedida" disabled>
+    </div>
+
+    <div class="formulario-campo">
+        <label>Preço Aproximado</label>
+        <br>
+        <input type="text" value="@Model.PrecoAproximado" disabled>
+    </div>
+
+    <div class="formulario-acoes">
+        <a href="/Produto/Listar">Voltar</a>
+        <button type="submit">Confirmar</button>
+    </div>
+
+</form>

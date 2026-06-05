@@ -1,10 +1,11 @@
+@using ListaDeCompras.WebApp.Models;
+
 @{
     Layout = "_Layout";
     ViewBag.Titulo = "Exclusão de Categoria";
 }
 
-@using ListaDeCompras.WebApp.ModuloCategoria;
-@model Categoria;
+@model ExcluirCategoriaViewModel;
 
 <form class="formulario" action="/Categoria/Excluir/@Model.Id" method="post">
 

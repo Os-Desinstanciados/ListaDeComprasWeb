@@ -1,11 +1,10 @@
+@using ListaDeCompras.WebApp.Models
 @{
     Layout = "_Layout";
     ViewBag.Titulo = "Listagem de Categorias";
 }
 
-@using ListaDeCompras.WebApp.ModuloCategoria;
-
-@model List<Categoria>;
+@model List<ListarCategoriasViewModel>;
 
 <a class="btn-cadastrar" href="/Categoria/Cadastrar">Cadastrar Novo</a>
 
@@ -19,7 +18,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (Categoria c in Model)
+        @foreach (ListarCategoriasViewModel c in Model)
         {
             <tr>
                 <td>@c.Id</td>
