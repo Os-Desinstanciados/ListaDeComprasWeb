@@ -1,5 +1,6 @@
 using ListaDeCompras.WebApp.Compartilhado;
 using ListaDeCompras.WebApp.Compartilhado.Arquivos;
+using ListaDeCompras.WebApp.Models;
 using ListaDeCompras.WebApp.ModuloCategoria;
 using ListaDeComprasWeb.ModuloCategoria;
 using Microsoft.AspNetCore.Mvc;
@@ -24,8 +25,20 @@ public class CategoriaController : Controller
     {
         List<Categoria> categorias = repositorioCategoria.SelecionarTodos();
 
+        List<ListarCategoriasViewModel> listarVm = new List<ListarCategoriasViewModel>();
 
-        return View(categorias);
+        foreach (Categoria c in categorias)
+        {
+            ListarCategoriasViewModel viewModel = new ListarCategoriasViewModel(
+                c.Id,
+                c.Nome,
+                c.Cor
+            );
+
+            listarVm.Add(viewModel);
+        }
+        
+        return View(listarVm);
     }
 
     [HttpGet]
@@ -35,13 +48,15 @@ public class CategoriaController : Controller
     }
 
     [HttpPost]
-    public ActionResult Cadastrar(string nome, string cor)
+    public ActionResult Cadastrar(CadastrarCategoriaViewModel cadastrarVm)
     {
-        Categoria novaCategoria = new Categoria(nome, cor);
+        Categoria novaCategoria = new Categoria(
+            cadastrarVm.Nome,
+            cadastrarVm.Cor
+        );
 
         repositorioCategoria.Cadastrar(novaCategoria);
         
-        string listarStr = nameof(Listar);
         return RedirectToAction(nameof(Listar));
     }
 
@@ -53,15 +68,24 @@ public class CategoriaController : Controller
         if (categoria == null)
             return RedirectToAction(nameof(Listar));
 
-        return View(categoria);
+        EditarCategoriaViewModel editarVm = new EditarCategoriaViewModel(
+            id,
+            categoria.Nome,
+            categoria.Cor
+        );
+
+        return View(editarVm);
     }
 
     [HttpPost]
-    public ActionResult Editar(string id, string nome, string cor)
+    public ActionResult Editar(EditarCategoriaViewModel editarVm)
     {
-        Categoria categoriaAtualizada = new Categoria(nome, cor);
+        Categoria categoriaAtualizada = new Categoria(
+            editarVm.Nome,
+            editarVm.Cor
+        );
 
-        repositorioCategoria.Editar(id, categoriaAtualizada);
+        repositorioCategoria.Editar(editarVm.Id, categoriaAtualizada);
 
         return RedirectToAction(nameof(Listar));
     }
@@ -74,14 +98,20 @@ public class CategoriaController : Controller
         if (categoria == null)
             return RedirectToAction(nameof(Listar));
 
-        return View(categoria);
+        ExcluirCategoriaViewModel excluirVm = new ExcluirCategoriaViewModel(
+            id,
+            categoria.Nome,
+            categoria.Cor
+        );
+
+        return View(excluirVm);
     }
 
     [HttpPost]
     [ActionName("Excluir")]
-    public ActionResult ExcluirConfirmado(string id)
+    public ActionResult ExcluirConfirmado(ExcluirCategoriaViewModel excluirVm)
     {
-        Categoria? categoria = repositorioCategoria.SelecionarPorId(id);
+        Categoria? categoria = repositorioCategoria.SelecionarPorId(excluirVm.Id);
 
         if (categoria == null)
             return RedirectToAction(nameof(Listar));

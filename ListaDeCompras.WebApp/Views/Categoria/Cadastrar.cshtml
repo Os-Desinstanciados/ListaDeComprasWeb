@@ -1,7 +1,11 @@
+@using ListaDeCompras.WebApp.Models;
+
 @{
     Layout = "_Layout";
     ViewBag.Titulo = "Cadastro de Categoria";
 }
+
+@model EditarCategoriaViewModel;
 
 <form class="formulario" action="/Categoria/Cadastrar" method="post">
     <div class="formulario-campo">

@@ -1,0 +1,2 @@
+namespace ListaDeCompras.WebApp.Models;
+

@@ -21,7 +21,6 @@ public class ProdutoController : Controller
     {
         List<Produto> produtos = repositorioProduto.SelecionarTodos();
 
-
         return View(produtos);
     }
 }
