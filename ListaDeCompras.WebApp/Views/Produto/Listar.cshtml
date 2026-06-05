@@ -5,7 +5,7 @@
 
 @model List<ListarProdutoViewModel>;
 
-<a class="btn-cadastrar" href="/Produto/Cadastrar">Cadastrar Novo</a>
+<a class="btn-cadastrar" asp-action="Cadastrar">Cadastrar Novo</a>
 
 <table class="registros">
     <thead>
@@ -28,8 +28,8 @@
                 <td>@p.UnidadeMedida</td>
                 <td>@p.PrecoAproximado.ToString(format: "C2")</td>
                 <td>
-                    <a href="/Produto/Editar/@p.Id">Editar</a>
-                    <a href="/Produto/Excluir/@p.Id">Excluir</a>
+                    <a asp-action="Editar" asp-route-id="@p.Id">Editar</a>
+                    <a asp-action="Excluir" asp-route-id="@p.Id">Excluir</a>
                 </td>
             </tr>
         }

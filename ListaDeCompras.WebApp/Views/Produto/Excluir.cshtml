@@ -5,40 +5,38 @@
 
 @model ExcluirProdutoViewModel;
 
-<form class="formulario" action="/Produto/Excluir" method="post">
-
-    <input type="hidden" name="Id" value="@Model.Id">
+<form class="formulario" asp-action="Excluir" asp-route-id="@Model.Id" method="post">
 
     <p class="formulario-alerta">
         Deseja realmente excluir este produto?
     </p>
 
     <div class="formulario-campo">
-        <label>Nome</label>
+        <label asp-for="Nome">Nome</label>
         <br>
-        <input type="text" value="@Model.Nome" disabled>
+        <input asp-for="Nome" type="text" disabled>
     </div>
 
     <div class="formulario-campo">
-        <label>Categoria</label>
+        <label asp-for="Categoria">Categoria</label>
         <br>
-        <input type="text" value="@Model.Categoria" disabled>
+        <input asp-for="Categoria" type="text" disabled>
     </div>
 
     <div class="formulario-campo">
-        <label>Unidade de Medida</label>
+        <label asp-for="UnidadeMedida">Unidade de Medida</label>
         <br>
-        <input type="text" value="@Model.UnidadeMedida" disabled>
+        <input asp-for="UnidadeMedida" type="text" disabled>
     </div>
 
     <div class="formulario-campo">
-        <label>Preço Aproximado</label>
+        <label asp-for="PrecoAproximado">Preço Aproximado</label>
         <br>
-        <input type="text" value="@Model.PrecoAproximado" disabled>
+        <input asp-for="PrecoAproximado" type="number" disabled>
     </div>
 
     <div class="formulario-acoes">
-        <a href="/Produto/Listar">Voltar</a>
+        <a asp-action="Listar">Voltar</a>
         <button type="submit">Confirmar</button>
     </div>
 

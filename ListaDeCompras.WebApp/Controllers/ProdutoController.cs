@@ -5,6 +5,8 @@ using ListaDeCompras.WebApp.ModuloCategoria;
 using ListaDeCompras.WebApp.ModuloProduto;
 using ListaDeComprasWeb.ModuloCategoria;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+
 
 namespace ListaDeCompras.WebApp.Controllers;
 
@@ -49,20 +51,38 @@ public class ProdutoController : Controller
     public ActionResult Cadastrar()
     {
         ViewBag.Categorias = CarregarCategorias();
-        return View();
+
+        CadastrarProdutoViewModel cadastrarVm = new(
+            "",
+            "",
+            "",
+            0.01m
+        );
+
+        return View(cadastrarVm);
     }
 
     [HttpPost]
     public ActionResult Cadastrar(CadastrarProdutoViewModel cadastrarVm)
     {
+        ViewBag.Categorias = CarregarCategorias();
+
         Categoria? categoria = repositorioCategoria.SelecionarPorId(cadastrarVm.CategoriaId);
 
-        if (categoria == null)
-            return RedirectToAction(nameof(Listar));
+        if (!string.IsNullOrWhiteSpace(cadastrarVm.CategoriaId) && categoria == null)
+        {
+            ModelState.AddModelError(
+                nameof(cadastrarVm.CategoriaId),
+                "Selecione uma categoria válida."
+            );
+        }
+
+        if (!ModelState.IsValid)
+            return View(cadastrarVm);
 
         Produto novoProduto = new Produto(
             cadastrarVm.Nome,
-            categoria,
+            categoria!,
             cadastrarVm.UnidadeMedida,
             cadastrarVm.PrecoAproximado
         );
@@ -80,22 +100,9 @@ public class ProdutoController : Controller
         if (produto == null)
             return RedirectToAction(nameof(Listar));
 
-        List<Categoria> categorias = repositorioCategoria.SelecionarTodos();
+        ViewBag.Categorias = CarregarCategorias();
 
-        List<ListarCategoriasViewModel> categoriasVm = new();
-
-        foreach (Categoria c in categorias)
-        {
-            categoriasVm.Add(new ListarCategoriasViewModel(
-                c.Id,
-                c.Nome,
-                c.Cor
-            ));
-        }
-
-        ViewBag.Categorias = categoriasVm;
-
-        EditarProdutoViewModel editarVm = new EditarProdutoViewModel(
+        EditarProdutoViewModel editarVm = new(
             produto.Id,
             produto.Nome,
             produto.Categoria.Id,
@@ -109,15 +116,25 @@ public class ProdutoController : Controller
     [HttpPost]
     public ActionResult Editar(EditarProdutoViewModel editarVm)
     {
+        ViewBag.Categorias = CarregarCategorias();
+
         Categoria? categoriaSelecionada =
             repositorioCategoria.SelecionarPorId(editarVm.CategoriaId);
 
-        if (categoriaSelecionada == null)
-            return RedirectToAction(nameof(Listar));
+        if (!string.IsNullOrWhiteSpace(editarVm.CategoriaId) && categoriaSelecionada == null)
+        {
+            ModelState.AddModelError(
+                nameof(editarVm.CategoriaId),
+                "Selecione uma categoria válida."
+            );
+        }
+
+        if (!ModelState.IsValid)
+            return View(editarVm);
 
         Produto produtoAtualizado = new Produto(
             editarVm.Nome,
-            categoriaSelecionada,
+            categoriaSelecionada!,
             editarVm.UnidadeMedida,
             editarVm.PrecoAproximado
         );
@@ -160,23 +177,22 @@ public class ProdutoController : Controller
         return RedirectToAction(nameof(Listar));
     }
 
-    private List<ListarCategoriasViewModel> CarregarCategorias()
+    private List<SelectListItem> CarregarCategorias()
     {
         List<Categoria> categorias = repositorioCategoria.SelecionarTodos();
 
-        List<ListarCategoriasViewModel> listarVm = new List<ListarCategoriasViewModel>();
+        List<SelectListItem> categoriasVm = new();
 
         foreach (Categoria c in categorias)
         {
-            ListarCategoriasViewModel viewModel = new ListarCategoriasViewModel(
-                c.Id,
+            SelectListItem item = new(
                 c.Nome,
-                c.Cor
+                c.Id
             );
 
-            listarVm.Add(viewModel);
+            categoriasVm.Add(item);
         }
 
-        return listarVm;
+        return categoriasVm;
     }
 }
