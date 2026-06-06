@@ -5,6 +5,9 @@ using ListaDeCompras.WebApp.ModuloCategoria.Infra;
 using ListaDeCompras.WebApp.ModuloLista.Aplicacao;
 using ListaDeCompras.WebApp.ModuloLista.Dominio;
 using ListaDeCompras.WebApp.ModuloLista.Infra;
+using ListaDeCompras.WebApp.ModuloProduto.Aplicacao;
+using ListaDeCompras.WebApp.ModuloProduto.Dominio;
+using ListaDeCompras.WebApp.ModuloProduto.Infra;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,9 +25,11 @@ builder.Services.AddScoped(provider =>
 
 builder.Services.AddScoped<IRepositorioCategoria, RepositorioCategoriaEmArquivo>();
 builder.Services.AddScoped<IRepositorioLista, RepositorioListaEmArquivo>();
+builder.Services.AddScoped<IRepositorioProduto, RepositorioProdutoEmArquivo>();
 
 builder.Services.AddScoped<ServicoLista>();
 builder.Services.AddScoped<ServicoCategoria>();
+builder.Services.AddScoped<ServicoProduto>();
 
 
 #endregion
