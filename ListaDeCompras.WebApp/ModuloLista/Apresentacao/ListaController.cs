@@ -1,17 +1,21 @@
 using ListaDeCompras.WebApp.ModuloLista.Aplicacao;
 using ListaDeCompras.WebApp.ModuloLista.Dominio;
+using ListaDeCompras.WebApp.ModuloProduto.Dominio;
 using FluentResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace ListaDeCompras.WebApp.ModuloLista.Apresentacao;
 
 public class ListaController : Controller
 {
     private readonly ServicoLista servicoLista;
+    private readonly IRepositorioProduto repositorioProduto;
 
-    public ListaController(ServicoLista servicoLista) //Erro : Method must have a return type
+    public ListaController(ServicoLista servicoLista, IRepositorioProduto repositorioProduto)
     {
         this.servicoLista = servicoLista;
+        this.repositorioProduto = repositorioProduto;
     }
 
     [HttpGet]
@@ -150,4 +154,78 @@ public class ListaController : Controller
 
         return RedirectToAction(nameof(Listar));
     }
+
+    [HttpGet]
+    public ActionResult Detalhes(string id)
+    {
+        Result<DetalhesListaDto> resultado = servicoLista.SelecionarPorId(id);
+
+        if (resultado.IsFailed)
+        {
+            TempData["MensagemErro"] = resultado.Errors.First().Message;
+            return RedirectToAction(nameof(Listar));
+        }
+
+        DetalhesListaDto dto = resultado.Value;
+
+        // Mapeia para a ViewModel de exibição
+        var detalhesVm = new DetalhesListaViewModel(
+            dto.Id,
+            dto.Nome,
+            dto.DataCriacao,
+            dto.Itens.Select(i => new ItemListaViewModel(i.Id, i.ProdutoNome, i.Preco, i.Quantidade, i.PrecoTotal)).ToList(),
+            dto.TotalGasto
+        );
+        
+        ViewBag.FormAdicionarItem = new AdicionarItemViewModel
+        {
+            ListaId = id,
+            ProdutosDisponiveis = repositorioProduto.SelecionarTodos()
+                .Select(p => new SelectListItem(p.Nome, p.Id))
+                .ToList()
+        };
+
+        return View(detalhesVm);
+    }
+
+    [HttpPost]
+    public ActionResult AdicionarItem(AdicionarItemViewModel vm)
+    {
+        if (!ModelState.IsValid)
+        {
+            TempData["MensagemErro"] = "Dados inválidos para adicionar o item.";
+            return RedirectToAction(nameof(Detalhes), new { id = vm.ListaId });
+        }
+
+        var dto = new AdicionarItemDto(vm.ProdutoId, vm.Quantidade);
+        Result resultado = servicoLista.AdicionarItem(vm.ListaId, dto);
+
+        if (resultado.IsFailed)
+        {
+            // Pega o primeiro erro retornado pela aplicação
+            TempData["MensagemErro"] = resultado.Errors.First().Message;
+        }
+        else
+        {
+            TempData["MensagemSucesso"] = "Item adicionado com sucesso!";
+        }
+
+        return RedirectToAction(nameof(Detalhes), new { id = vm.ListaId });
+    }
+
+    [HttpPost]
+    public ActionResult RemoverItem(string listaId, string itemId)
+    {
+        Result resultado = servicoLista.RemoverItem(listaId, itemId);
+
+        if (resultado.IsFailed)
+            TempData["MensagemErro"] = resultado.Errors.First().Message;
+        else
+            TempData["MensagemSucesso"] = "Item removido com sucesso!";
+
+        return RedirectToAction(nameof(Detalhes), new { id = listaId });
+    }
 }
+
+
+

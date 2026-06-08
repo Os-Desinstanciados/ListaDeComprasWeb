@@ -1,18 +1,22 @@
 using ListaDeCompras.WebApp.ModuloLista.Dominio;
+using ListaDeCompras.WebApp.ModuloProduto.Dominio;
 using FluentResults;
 
 namespace ListaDeCompras.WebApp.ModuloLista.Aplicacao;
 
 public class ServicoLista
 {
-    private readonly IRepositorioLista repositorioLista;    
+    private readonly IRepositorioLista repositorioLista;
+    private readonly IRepositorioProduto repositorioProduto;    
 
     public ServicoLista(
-        IRepositorioLista repositorioLista
+        IRepositorioLista repositorioLista,
+        IRepositorioProduto repositorioProduto
         
     )
     {
-        this.repositorioLista = repositorioLista;       
+        this.repositorioLista = repositorioLista; 
+        this.repositorioProduto = repositorioProduto;      
     }
 
     public Result Cadastrar(CadastrarListaDto dto)
@@ -72,9 +76,64 @@ public class ServicoLista
 
         if (lista == null)
             return Result.Fail("Lista não encontrada.");
+       
+        var itensDto = lista.Itens.Select(i => new ExibirItemListaDto(
+            i.Id,
+            i.Produto.Id,       
+            i.Produto.Nome,
+            i.Produto.Preco,            
+            i.Quantidade,
+            i.PrecoTotal 
+        )).ToList();
 
-        return Result.Ok(new DetalhesListaDto(lista.Id, lista.Nome, lista.DataCriacao));
+       
+        var detalhesDto = new DetalhesListaDto(
+            lista.Id, 
+            lista.Nome, 
+            lista.DataCriacao, 
+            itensDto, 
+            lista.TotalGasto
+        );
+
+        return Result.Ok(detalhesDto);
     }
+
+    
+    public Result AdicionarItem(string listaId, AdicionarItemDto dto)
+    {
+        Lista? lista = repositorioLista.SelecionarPorId(listaId);
+        if (lista == null)
+            return Result.Fail("Lista de compras não encontrada.");
+       
+        Produto? produto = repositorioProduto.SelecionarPorId(dto.ProdutoId);
+        if (produto == null)
+            return Falha("ProdutoId", "O produto selecionado não existe.");
+
+        if (dto.Quantidade <= 0)
+            return Falha("Quantidade", "A quantidade deve ser maior que zero.");
+        
+        lista.AdicionarItem(produto, dto.Quantidade);
+       
+        repositorioLista.Editar(listaId, lista);
+
+        return Result.Ok();
+    }
+
+    public Result RemoverItem(string listaId, string itemId)
+    {
+        Lista? lista = repositorioLista.SelecionarPorId(listaId);
+        if (lista == null)
+            return Result.Fail("Lista de compras não encontrada.");
+       
+        bool itemRemovido = lista.RemoverItem(itemId);
+        if (!itemRemovido)
+            return Result.Fail("Item não encontrado nesta lista.");
+       
+        repositorioLista.Editar(listaId, lista);
+
+        return Result.Ok();
+    }
+  
 
     private bool ExisteListaComNome(string nome, string? idIgnorado = null)
     {

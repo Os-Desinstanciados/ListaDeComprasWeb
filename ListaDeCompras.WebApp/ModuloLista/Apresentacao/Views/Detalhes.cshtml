@@ -1,0 +1,128 @@
+@model ListaDeCompras.WebApp.ModuloLista.Apresentacao.DetalhesListaViewModel
+@using ListaDeCompras.WebApp.ModuloLista.Apresentacao
+
+@{
+    Layout = "_Layout";
+    ViewBag.Titulo = $"Detalhes da Lista: {Model.Nome}";
+       
+    var formAdicionarItem = ViewBag.FormAdicionarItem as AdicionarItemViewModel;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="mb-1">@Model.Nome</h2>
+        <span class="text-muted">Criada em: @Model.DataCriacao</span>
+    </div>
+    <a class="btn btn-outline-secondary rounded-pill px-4" asp-action="Listar">Voltar para Listagem</a>
+</div>
+
+@if (TempData["MensagemErro"] is string mensagemErro)
+{
+    <div class="alert alert-danger border-start border-danger border-4 rounded-3" role="alert">
+        @mensagemErro
+    </div>
+}
+@if (TempData["MensagemSucesso"] is string mensagemSucesso)
+{
+    <div class="alert alert-success border-start border-success border-4 rounded-3" role="alert">
+        @mensagemSucesso
+    </div>
+}
+
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="card shadow-sm border-0 rounded-3">
+            <div class="card-header bg-primary text-white py-3">
+                <h5 class="card-title mb-0">Produtos na Lista</h5>
+            </div>
+            <div class="card-body p-0">
+                @if (Model.Itens.Count == 0)
+                {
+                    <div class="p-4 text-center text-muted">
+                        <p class="mb-0">Sua lista está vazia. Adicione produtos usando o formulário ao lado!</p>
+                    </div>
+                }
+                else
+                {
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Produto</th>
+                                    <th class="text-center">Qtd.</th>
+                                    <th class="text-end">Preço Unit.</th>
+                                    <th class="text-end">Total</th>
+                                    <th class="text-center">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Itens)
+                                {
+                                    <tr>
+                                        <td><strong>@item.ProdutoNome</strong></td>
+                                        <td class="text-center">@item.Quantidade</td>
+                                        <td class="text-end">@item.Preco.ToString("C")</td>
+                                        <td class="text-end">@item.PrecoTotal.ToString("C")</td>
+                                        <td class="text-center">
+                                            <form asp-action="RemoverItem" method="post" onsubmit="return confirm('Deseja realmente remover este produto da lista?');">
+                                                <input type="hidden" name="listaId" value="@Model.Id" />
+                                                <input type="hidden" name="itemId" value="@item.Id" />
+                                                <button type="submit" class="btn btn-outline-danger btn-sm rounded-pill px-3">Remover</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="card-footer bg-light py-3 text-end">
+                        <h4 class="mb-0 text-primary">Total Geral: <strong>@Model.TotalGasto.ToString("C")</strong></h4>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card shadow-sm border-0 rounded-3 position-sticky" style="top: 20px;">
+            <div class="card-header bg-dark text-white py-3">
+                <h5 class="card-title mb-0">Adicionar Produto</h5>
+            </div>
+            <div class="card-body">
+                @if (formAdicionarItem != null)
+                {
+                    <form asp-action="AdicionarItem" method="post">
+                        <input type="hidden" name="ListaId" value="@formAdicionarItem.ListaId" />
+
+                        <div class="mb-3">
+                            <label class="form-label font-weight-bold">Selecione o Produto</label>
+                            <select name="ProdutoId" class="form-select" required>
+                                <option value="">-- Selecione --</option>
+                                @foreach (var prod in formAdicionarItem.ProdutosDisponiveis)
+                                {
+                                    <option value="@prod.Value">@prod.Text</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Quantidade</label>
+                            <input type="number" name="Quantidade" class="form-control" value="1" min="1" required />
+                        </div>
+
+                        <button type="submit" class="btn btn-success w-100 rounded-pill py-2 mt-2">
+                            Inserir na Lista
+                        </button>
+                    </form>
+                }
+                else
+                {
+                    <div class="alert alert-warning mb-0">
+                        Não foi possível carregar os produtos disponíveis.
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

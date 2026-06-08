@@ -1,4 +1,5 @@
 using ListaDeCompras.WebApp.Compartilhado.Dominio;
+using ListaDeCompras.WebApp.ModuloProduto.Dominio;
 
 namespace ListaDeCompras.WebApp.ModuloLista.Dominio;
 
@@ -13,6 +14,41 @@ public sealed class Lista : EntidadeBase<Lista>
     {
         Nome = nome;
         DataCriacao = dataCriacao;
+    }
+
+    public List<ItemListaCompras> Itens { get; set; } = new List<ItemListaCompras>();
+    public decimal TotalGasto
+    {
+        get
+        {
+            decimal totalGasto = 0;
+
+            foreach (ItemListaCompras item in Itens)
+                totalGasto += item.PrecoTotal;
+
+            return totalGasto;
+        }
+    }
+
+    public void AdicionarItem(Produto produto, int quantidade)
+    {
+        ItemListaCompras item = new ItemListaCompras(produto, quantidade);
+
+        Itens.Add(item);
+    }
+
+    public bool RemoverItem(string idItem)
+    {
+        foreach (ItemListaCompras item in Itens)
+        {
+            if (item.Id == idItem)
+            {
+                Itens.Remove(item);
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public override List<string> Validar()

@@ -44,6 +44,9 @@ else
                         <td>@l.DataCriacao</td>
                         <td>
                             <div class="d-flex gap-2">
+                                <a class="btn btn-primary btn-sm rounded-pill px-3" asp-action="Detalhes" asp-route-id="@l.Id">
+                                    <i class="bi bi-cart"></i> Gerenciar Itens
+                                </a>
                                 <a class="btn btn-outline-primary btn-sm rounded-pill px-3" asp-action="Editar" asp-route-id="@l.Id">Editar</a>
                                 <a class="btn btn-outline-primary btn-sm rounded-pill px-3" asp-action="Excluir" asp-route-id="@l.Id">Excluir</a>
                             </div>
