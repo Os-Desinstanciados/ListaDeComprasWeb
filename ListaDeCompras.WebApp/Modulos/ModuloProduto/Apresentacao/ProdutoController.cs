@@ -1,10 +1,9 @@
 using AutoMapper;
 using FluentResults;
 using ListaDeCompras.WebApp.Compartilhado.Apresentacao.Extensions;
-using ListaDeComprasWeb.WebApp.Modulos.ModuloProduto.Aplicacao;
 using ListaDeCompras.WebApp.Modulos.ModuloProduto.Aplicacao;
+using ListaDeCompras.WebApp.Modulos.ModuloProduto.Dominio;
 using Microsoft.AspNetCore.Mvc;
-using ListaDeComprasWeb.WebApp.Modulos.ModuloProduto.Dominio;
 
 namespace ListaDeCompras.WebApp.Modulos.ModuloProduto.Apresentacao;
 

@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using ListaDeComprasWeb.WebApp.Modulos.ModuloProduto.Dominio;
+using ListaDeCompras.WebApp.Modulos.ModuloProduto.Dominio;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace ListaDeCompras.WebApp.Modulos.ModuloProduto.Apresentacao;

@@ -1,4 +1,4 @@
-namespace ListaDeComprasWeb.WebApp.Modulos.ModuloProduto.Dominio;
+namespace ListaDeCompras.WebApp.Modulos.ModuloProduto.Dominio;
 
 public enum UnidadeMedida
 {

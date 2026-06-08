@@ -1,7 +1,7 @@
 using FluentResults;
 using ListaDeCompras.WebApp.Modulos.ModuloCategoria.Dominio;
 using ListaDeCompras.WebApp.Modulos.ModuloProduto.Dominio;
-using ListaDeComprasWeb.WebApp.Modulos.ModuloProduto.Aplicacao;
+using ListaDeCompras.WebApp.Modulos.ModuloProduto.Aplicacao;
 
 namespace ListaDeCompras.WebApp.Modulos.ModuloProduto.Aplicacao;
 

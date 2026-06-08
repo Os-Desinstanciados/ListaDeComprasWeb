@@ -1,49 +1,60 @@
+@using ListaDeCompras.WebApp.Modulos.ModuloProduto.Dominio
 @{
     Layout = "_Layout";
     ViewBag.Titulo = "Edição de Produto";
-
-    List<SelectListItem> selecionarCategorias = ViewBag.Categorias;
 }
 
 @model EditarProdutoViewModel;
 
-<form class="formulario" asp-action="Editar" asp-route-id="@Model.Id" method="post">
+@if (Model.Categorias.Count == 0)
+{
+    <div class="alert alert-primary border-start border-primary border-4 rounded-3 mx-auto" style="max-width: 620px;" role="alert">
+        Cadastre uma categoria antes de editar produtos.
+    </div>
+}
 
-    <div class="formulario-campo">
-        <label asp-for="Nome">Nome</label>
-        <input asp-for="Nome" type="text">
-        <span asp-validation-for="Nome" class="formulario-validacao-campo"></span>
+<form class="card border-primary-subtle shadow-sm mx-auto p-4" style="max-width: 620px;" asp-action="Editar" asp-route-id="@Model.Id" method="post">
+    <input asp-for="Id" type="hidden">
+
+    <div class="mb-3">
+        <label asp-for="Nome" class="form-label fw-semibold text-primary text-uppercase small">Nome</label>
+        <input asp-for="Nome" type="text" class="form-control">
+        <span asp-validation-for="Nome" class="text-danger small fw-semibold"></span>
     </div>
 
-    <div class="formulario-campo">
-        <label asp-for="CategoriaId">Categoria</label>
-        <select asp-for="CategoriaId" asp-items="selecionarCategorias">
+    <div class="mb-3">
+        <label asp-for="CategoriaId" class="form-label fw-semibold text-primary text-uppercase small">Categoria</label>
+        <select asp-for="CategoriaId" class="form-select">
             <option value="">Selecione uma categoria</option>
+            @foreach (OpcaoCategoriaViewModel categoria in Model.Categorias)
+            {
+                <option value="@categoria.Id">@categoria.Nome</option>
+            }
         </select>
-        <span asp-validation-for="CategoriaId" class="formulario-validacao-campo"></span>
+        <span asp-validation-for="CategoriaId" class="text-danger small fw-semibold"></span>
     </div>
 
-    <div class="formulario-campo">
-        <label asp-for="UnidadeMedida">Unidade de Medida</label>
-        <select asp-for="UnidadeMedida">
-            <option value="">Selecione uma unidade</option>
-            <option value="Kg">Kg</option>
-            <option value="Unidade">Unidade</option>
-            <option value="Caixa">Caixa</option>
-            <option value="Grama">Grama</option>
-        </select>
-        <span asp-validation-for="UnidadeMedida" class="formulario-validacao-campo"></span>
+    <div class="mb-3">
+        <label asp-for="UnidadeMedida" class="form-label fw-semibold text-primary text-uppercase small">Unidade de Medida</label>
+        <select asp-for="UnidadeMedida" asp-items="Html.GetEnumSelectList<UnidadeMedida>()" class="form-select"></select>
+        <span asp-validation-for="UnidadeMedida" class="text-danger small fw-semibold"></span>
     </div>
 
-    <div class="formulario-campo">
-        <label asp-for="PrecoAproximado">Preço Aproximado</label>
-        <input asp-for="PrecoAproximado" type="number" step="0.01">
-        <span asp-validation-for="PrecoAproximado" class="formulario-validacao-campo"></span>
+    <div class="mb-3">
+        <label asp-for="PrecoAproximado" class="form-label fw-semibold text-primary text-uppercase small">Preço Aproximado</label>
+        <input asp-for="PrecoAproximado" type="number" min="0" step="0.01" class="form-control">
+        <span asp-validation-for="PrecoAproximado" class="text-danger small fw-semibold"></span>
     </div>
 
-    <div class="formulario-acoes">
-        <a asp-action="Listar">Voltar</a>
-        <button type="submit">Confirmar</button>
+    <div class="d-flex justify-content-end gap-2 mt-4">
+        <a class="btn btn-outline-primary rounded-pill px-4" asp-action="Listar">Voltar</a>
+        @if (Model.Categorias.Count == 0)
+        {
+            <button class="btn btn-primary rounded-pill px-4" type="submit" disabled>Confirmar</button>
+        }
+        else
+        {
+            <button class="btn btn-primary rounded-pill px-4" type="submit">Confirmar</button>
+        }
     </div>
-
 </form>

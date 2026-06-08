@@ -1,6 +1,6 @@
-using ListaDeComprasWeb.WebApp.Modulos.ModuloProduto.Dominio;
+using ListaDeCompras.WebApp.Modulos.ModuloProduto.Dominio;
 
-namespace ListaDeComprasWeb.WebApp.Modulos.ModuloProduto.Aplicacao;
+namespace ListaDeCompras.WebApp.Modulos.ModuloProduto.Aplicacao;
 
 public record OpcaoCategoriaDto(
     Guid Id,
