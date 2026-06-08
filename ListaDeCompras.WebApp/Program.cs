@@ -1,17 +1,23 @@
-// APS.NET Core
-// Builder de um server web
-WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+using ListaDeCompras.WebApp.Compartilhado.Aplicacao;
+using ListaDeCompras.WebApp.Compartilhado.Apresentacao;
+using ListaDeCompras.WebApp.Compartilhado.Infra.Arquivos;
 
-// MVC
-builder.Services.AddControllersWithViews();
+var builder = WebApplication.CreateBuilder(args);
 
-// Criação de Instancia do servidor Web
-WebApplication app = builder.Build();
+// Configuração de Dependências (Dependency Injection)
+builder.Services.AddInfraRepositories();
 
-// Middlewares - Funções que executam a cada chamada
+builder.Services.AddAplicationServices();
+
+builder.Services.AddPresentationConfig();
+
+var app = builder.Build();
+
+// Configuração de Middlewares
 app.UseStaticFiles();
+
 app.UseRouting();
 app.MapDefaultControllerRoute();
 
-// Iniciar o looping da aplicação
+// Execução do Servidor
 app.Run();

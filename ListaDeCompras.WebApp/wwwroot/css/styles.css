@@ -48,6 +48,29 @@ nav {
     margin: 15px;
 }
 
+.filtros-listagem {
+    display: flex;
+    gap: 15px;
+
+    margin: 18px;
+}
+
+.filtros-listagem a {
+    border: 1px solid black;
+    border-radius: 100vmax;
+    color: black;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 7px 16px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.filtros-listagem a.ativo {
+    background-color: gold;
+    color: black;
+}
+
 .registros {
     width: 100%;
     min-width: 720px;
