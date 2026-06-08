@@ -14,10 +14,12 @@
     </div>
 
     <div class="mb-3">
-        <label asp-for="Categoria" class="form-label fw-semibold text-primary text-uppercase small">Categoria</label>
-        <input asp-for="Categoria" type="text" class="form-control">
-        <span asp-validation-for="Categoria" class="text-danger small fw-semibold"></span>
-    </div>    
+        <label asp-for="CategoriaId" class="form-label fw-semibold text-primary text-uppercase small">Categoria</label>
+        <select asp-for="CategoriaId" asp-items="ViewBag.Categorias" class="form-select">
+            <option value="">Selecione uma categoria...</option>
+        </select>
+        <span asp-validation-for="CategoriaId" class="text-danger small fw-semibold"></span>
+    </div>   
 
     <div class="mb-3">
         <label asp-for="Unidade" class="form-label fw-semibold text-primary text-uppercase small">Unidade de Medida</label>

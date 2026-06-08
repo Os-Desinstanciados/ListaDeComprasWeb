@@ -6,7 +6,7 @@ namespace ListaDeCompras.WebApp.ModuloProduto.Apresentacao;
 public record ListarProdutosViewModel(
     string Id,
     string Nome,
-    Categoria Categoria,
+    string CategoriaNome,
     string Unidade,
     decimal Preco
 );
@@ -17,7 +17,7 @@ public record CadastrarProdutoViewModel(
     string Nome,
 
     [Required(ErrorMessage = "O campo \"Categoria\" deve ser preenchido.")]    
-    Categoria Categoria,
+    string CategoriaId,
 
     [Required(ErrorMessage = "O campo \"Unidade\" deve ser preenchido.")]    
     string Unidade,
@@ -35,7 +35,7 @@ public record EditarProdutoViewModel(
     string Nome,
 
     [Required(ErrorMessage = "O campo \"Categoria\" deve ser preenchido.")]    
-    Categoria Categoria,
+    string CategoriaId,
 
     [Required(ErrorMessage = "O campo \"Unidade\" deve ser preenchido.")]    
     string Unidade,
@@ -48,7 +48,7 @@ public record EditarProdutoViewModel(
 public record ExcluirProdutoViewModel(
     string Id,
     string Nome,
-    Categoria Categoria,
+    string CategoriaNome,
     string Unidade,
     decimal Preco
 );

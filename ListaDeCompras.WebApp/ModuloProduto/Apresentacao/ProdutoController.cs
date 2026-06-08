@@ -1,17 +1,21 @@
 using ListaDeCompras.WebApp.ModuloProduto.Aplicacao;
+using ListaDeCompras.WebApp.ModuloCategoria.Aplicacao;
 using ListaDeCompras.WebApp.ModuloProduto.Dominio;
 using FluentResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace ListaDeCompras.WebApp.ModuloProduto.Apresentacao;
 
 public class ProdutoController : Controller
 {
     private readonly ServicoProduto servicoProduto;
+    private readonly ServicoCategoria servicoCategoria;
 
-    public ProdutoController(ServicoProduto servicoProduto)
+    public ProdutoController(ServicoProduto servicoProduto, ServicoCategoria servicoCategoria)
     {
         this.servicoProduto = servicoProduto;
+        this.servicoCategoria = servicoCategoria;
     }
 
     [HttpGet]
@@ -20,7 +24,7 @@ public class ProdutoController : Controller
         List<ListarProdutosDto> dtos = servicoProduto.SelecionarTodos();
 
         List<ListarProdutosViewModel> listarVms = dtos
-            .Select(p => new ListarProdutosViewModel(p.Id, p.Nome, p.Categoria, p.Unidade, p.Preco))
+            .Select(p => new ListarProdutosViewModel(p.Id, p.Nome, p.CategoriaNome, p.Unidade, p.Preco))
             .ToList();
 
         return View(listarVms);
@@ -31,10 +35,12 @@ public class ProdutoController : Controller
     {
         CadastrarProdutoViewModel cadastrarVm = new CadastrarProdutoViewModel(
             string.Empty,
-            null!,
+            string.Empty,
             string.Empty,
             0
         );
+
+        ViewBag.Categorias = ObterMapeamentoCategorias();
 
         return View(cadastrarVm);
     }
@@ -43,11 +49,14 @@ public class ProdutoController : Controller
     public ActionResult Cadastrar(CadastrarProdutoViewModel cadastrarVm)
     {
         if (!ModelState.IsValid)
+        {
+            ViewBag.Categorias = ObterMapeamentoCategorias();
             return View(cadastrarVm);
+        }
 
         CadastrarProdutoDto dto = new CadastrarProdutoDto(
             cadastrarVm.Nome,
-            cadastrarVm.Categoria,
+            cadastrarVm.CategoriaId, 
             cadastrarVm.Unidade,
             cadastrarVm.Preco
         );
@@ -64,6 +73,7 @@ public class ProdutoController : Controller
                 ModelState.AddModelError(campo, erro.Message);
             }
 
+            ViewBag.Categorias = ObterMapeamentoCategorias();
             return View(cadastrarVm);
         }
 
@@ -87,11 +97,12 @@ public class ProdutoController : Controller
         EditarProdutoViewModel editarVm = new EditarProdutoViewModel(
             id,
             dto.Nome,            
-            dto.Categoria,
+            dto.CategoriaNome,
             dto.Unidade,
             dto.Preco
         );
 
+        ViewBag.Categorias = ObterMapeamentoCategorias();
         return View(editarVm);
     }
 
@@ -104,7 +115,7 @@ public class ProdutoController : Controller
         Result resultado = servicoProduto.Editar(new EditarProdutoDto(
             editarVm.Id,
             editarVm.Nome,
-            editarVm.Categoria,
+            editarVm.CategoriaId,
             editarVm.Unidade,
             editarVm.Preco
         ));
@@ -118,7 +129,7 @@ public class ProdutoController : Controller
 
                 ModelState.AddModelError(campo, erro.Message);
             }
-
+            ViewBag.Categorias = ObterMapeamentoCategorias();
             return View(editarVm);
         }
 
@@ -142,7 +153,7 @@ public class ProdutoController : Controller
         ExcluirProdutoViewModel excluirVm = new ExcluirProdutoViewModel(
             id,
             dto.Nome,            
-            dto.Categoria,
+            dto.CategoriaNome,
             dto.Unidade,
             dto.Preco
         );
@@ -159,5 +170,12 @@ public class ProdutoController : Controller
             TempData["MensagemErro"] = resultado.Errors.First().Message;
 
         return RedirectToAction(nameof(Listar));
+    }
+
+    private SelectList ObterMapeamentoCategorias()
+    {
+        // Altere para o método real que você usa para listar as categorias (Ex: selecionar todas)
+        var categorias = servicoCategoria.SelecionarTodos(); 
+        return new SelectList(categorias, "Id", "Nome");
     }
 }

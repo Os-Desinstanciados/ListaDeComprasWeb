@@ -7,14 +7,14 @@ namespace ListaDeCompras.WebApp.ModuloProduto.Aplicacao;
 public record ListarProdutosDto(
     string Id,
     string Nome,
-    Categoria Categoria,
+    string CategoriaNome,
     string Unidade,
     decimal Preco
 );
 
 public record CadastrarProdutoDto(
     string Nome,
-    Categoria Categoria,
+    string CategoriaId,
     string Unidade,
     decimal Preco
 );
@@ -22,7 +22,7 @@ public record CadastrarProdutoDto(
 public record EditarProdutoDto(
     string Id,
     string Nome,
-    Categoria Categoria,
+    string CategoriaId,
     string Unidade,
     decimal Preco
 );
@@ -30,7 +30,7 @@ public record EditarProdutoDto(
 public record DetalhesProdutoDto(
     string Id,
     string Nome,
-    Categoria Categoria,
+    string CategoriaNome,
     string Unidade,
     decimal Preco
 );
