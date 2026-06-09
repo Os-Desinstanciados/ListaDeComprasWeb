@@ -2,7 +2,7 @@ using AutoMapper;
 using ListaDeCompras.WebApp.Modulos.ModuloProduto.Aplicacao;
 using ListaDeCompras.WebApp.Modulos.ModuloProduto.Apresentacao;
 
-namespace ListaDeComprasWeb.WebApp.ModuloProduto.Apresentacao;
+namespace ListaDeCompras.WebApp.ModuloProduto.Apresentacao;
 
 public class ProdutoProfile : Profile
 {
